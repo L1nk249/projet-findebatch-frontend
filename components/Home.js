@@ -34,7 +34,7 @@ function Home() {
 
   useEffect(() => {
     // CHARGEMENT DES EVENTS LES + LIKES
-    fetch("http://localhost:3000/events/top/liked")
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/events/top/liked`)
       .then((response) => response.json())
       .then((data) => {
         setTopEvent(data.events);
@@ -42,7 +42,7 @@ function Home() {
 
     // CHARGEMENT DES EVENTS BOOKES
     if (token) {
-      fetch(`http://localhost:3000/events/bookinglist/booking/user/${token}`)
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/events/bookinglist/booking/user/${token}`)
         .then((response) => response.json())
         .then((data) => {
           console.log("data.eventsBooked", data.eventsBooked);
@@ -67,9 +67,7 @@ function Home() {
           const startDate = today.toISOString().split("T")[0];
           const endDate = nextSunday.toISOString().split("T")[0];
           // 3- je lance ma route
-          fetch(
-            `http://localhost:3000/events/${startDate}/${endDate}/${longitude}/${latitude}`
-          )
+          fetch(`${process.env.REACT_APP_BACKEND_URL}/events/${startDate}/${endDate}/${longitude}/${latitude}`)
             .then((response) => response.json())
             .then((data) => {
               setEventThisWeek(data.events);

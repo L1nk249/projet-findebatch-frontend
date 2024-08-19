@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['cibul.s3.amazonaws.com', 'localhost:3001', 'res.cloudinary.com'],
+    domains: ['cibul.s3.amazonaws.com',  'projet-f-inde-b-ashbackend.vercel.app', 'res.cloudinary.com'],
   },
 
 

@@ -45,7 +45,7 @@ useEffect(() => {
 
   const fetchPlaces = () => {
     results.map((data) => {
-      fetch(`http://localhost:3000/places/${data.place}`)
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/places/${data.place}`)
       .then(response => response.json())
       .then(info => {
           setLatitude(info.place[0].latitude)

@@ -30,7 +30,7 @@ function searchBar() {
   // à l'affichage du composant, je récupère les catégories dans la bdd
 
   useEffect(() => {
-    fetch("http://localhost:3000/places")
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/places`)
       .then((response) => response.json())
       .then((data) => {
         const array = [];
@@ -43,7 +43,7 @@ function searchBar() {
         setEventCity(array);
       });
 
-    fetch("http://localhost:3000/categories")
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`)
       .then((response) => response.json())
       .then((data) => {
         const array = [];
@@ -131,8 +131,8 @@ function searchBar() {
   // fonction pour chercher les évènements correspondant aux filtres sélectionnés par le user
   // le résultat est envoyé dans le reducer events pour les récupérer sur les pages de résultats
   const findResults = (query) => {
-    const url = `http://localhost:3000/events/${startDate}/${endDate}/${city}${
-      query ? query : ""
+    const url = `${process.env.REACT_APP_BACKEND_URL}/events/${startDate}/${endDate}/${city}${
+      query ? `?query=${encodeURIComponent(query)}` : ""
     }`;
     fetch(url)
       .then((response) => response.json())

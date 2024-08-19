@@ -88,7 +88,7 @@ function Inscription() {
       return;
     }
 // si les conditions sont remplies--> fetch vers signup pour inscrire l'utilisateur 
-    fetch("http://localhost:3000/users/signup", {
+fetch(`${process.env.REACT_APP_BACKEND_URL}/users/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

@@ -18,7 +18,7 @@ function EventCard(props) {
     if (token) { 
       // je vais récupérer l'id du user, si cet id est compris dans le NbLike de cet event
       // alors isLiked est true
-      fetch(`http://localhost:3000/users/infos/${token}`)
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/users/infos/${token}`)
         .then((response) => response.json())
         .then((data) => {
           console.log(data.user[0]._id);
@@ -46,7 +46,7 @@ function EventCard(props) {
       setIsLiked(!isliked);
     // Cette route ajoute un like si le token de l'user n'est pas présent dans le tableau nbLike dans la BDD
     // s'il est présent dans le tableau nbLike dans la BDD cette route retire 1 like
-    fetch(`http://localhost:3000/events/like/${token}/${props._id}`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/events/like/${token}/${props._id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
     })

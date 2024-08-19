@@ -60,7 +60,7 @@ function Connexion({ isConnected = true, showModal, handleClose }) {
       return;
     }
 
-    fetch("http://localhost:3000/users/signin", {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/users/signin`, {
       //Fait une requête POST au backend pour vérifier les informations de connexion.
 
       method: "POST",

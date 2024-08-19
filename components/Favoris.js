@@ -11,7 +11,7 @@ function Favoris() {
 
   useEffect(() => {
     // Je commence par récupérer les évènements likés
-    fetch(`http://localhost:3000/events/likelist/like/user/${token}`)
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/events/likelist/like/user/${token}`)
       .then((response) => response.json())
       .then((data) => {
         console.log("data.eventsLiked", data.eventsLiked);
