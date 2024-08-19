@@ -29,6 +29,7 @@
     "bootstrap": "^5.3.3",
     "boxicons": "^2.1.4",
     "cloudinary": "^2.4.0",
+    "dotenv": "^16.4.5",
     "embla-carousel-react": "^8.1.8",
     "express-fileupload": "^1.5.1",
     "google-map-react": "^2.2.1",
