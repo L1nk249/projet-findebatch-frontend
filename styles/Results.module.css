@@ -3,6 +3,12 @@
   gap: 20px;
 }
 
+.btnContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .displayContainer {
   margin: 30px;
   display: flex;
@@ -12,8 +18,8 @@
 }
 
     
-    
-    .button   {
+
+    .button  {
         border: 1px solid #e38d83;
         border-radius: 20px;
         width: 150px;
@@ -22,19 +28,38 @@
         color: white;
         background-color: #e38d83;
         margin: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between; /* Ajoute de l'espace entre le texte et l'icône */
+        padding: 8px 16px;
+
+        background-color: #f0f0f0;
+        cursor: pointer;
+        border-radius: 4px;
+
+
+
       }
       
       .button:hover {
         background-color:black;
         background-color: rgb(46, 70, 86);
         font-weight: bold;
+        color: white;
     }
 
       .inactive {
-        color: gray;
-        background-color: lightgray;
-        border-color: lightgray;
+        color: rgb(46, 70, 86);
+        background-color: white;
+        border-color: rgb(46, 70, 86);
       }
+
+      .inactive:hover {
+        background-color:black;
+        background-color: rgb(46, 70, 86);
+        font-weight: bold;
+        color: white;
+    }
 
 .active{
     border: 1px solid #e38d83;
@@ -47,31 +72,20 @@
         margin: 15px;
 }
 
+.active:hover {
+  background-color:white;
+  font-weight: bold;
+  color: #e38d83;
+  
+}
 
-
-    
-   
-
-    .icon {
-    
-        color: 'white';
-        display: flex;
-        align-items: center;
-        gap:10px;
-        position: relative;
-        font-size: 35px;
-        cursor:pointer
-    }
 
 .icon {
-  color: "white";
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  position: relative;
-  font-size: 35px;
-  cursor: pointer;
+    margin-left: 8px; /* Ajoute un petit espace entre le texte et l'icône */
+    display: flex; /* Assure que l'icône est bien alignée */
+    align-items: center;
 }
+
 
 .navigation-buttons button {
   background-color: white;
@@ -119,14 +133,19 @@
   display: flex;
 }
 
-/* .popUp {
-    display: flex;
-    width: 20px;
-    height: 10px;
-   } */
+.imgStyle {
+    width: 250px;
+    height: 25;
+  }
 
-/* .popUpImg {
-    display: flex;
-    align-items: center;
-    object-fit: cover
-   } */
+
+.button2  {
+  border: 1px solid #e38d83;
+  border-radius: 20px;
+  width: 150px;
+  height: 40px;
+  cursor: pointer;
+  color: white;
+  background-color: #e38d83;
+  margin: 15px;
+}

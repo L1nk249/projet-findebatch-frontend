@@ -1,0 +1,125 @@
+.buttonContainer {
+    display: flex;
+    margin-top: -20px;
+    gap: 20px;
+  }
+  
+  .displayContainer {
+    margin: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: row;
+  }
+  
+  .button  {
+    border: 1px solid #e38d83;
+    border-radius: 20px;
+    width: 150px;
+    height: 40px;
+    cursor: pointer;
+    color: white;
+    background-color: #e38d83;
+    margin: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Ajoute de l'espace entre le texte et l'icône */
+    padding: 8px 16px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+  
+  
+  }
+  
+  .button:hover {
+    background-color:black;
+    background-color: rgb(46, 70, 86);
+    font-weight: bold;
+    color: white;
+  }
+  .inactive {
+    color: gray;
+    background-color: lightgray;
+    border-color: lightgray;
+  }
+  
+  .icon {
+    margin-left: 8px; /* Ajoute un petit espace entre le texte et l'icône */
+    display: flex; /* Assure que l'icône est bien alignée */
+    align-items: center;
+    
+  }
+  .icon i {
+    font-size: 25px;
+  }
+  
+  
+  .active {
+    border: 1px solid #e38d83;
+    border-radius: 20px;
+    width: 150px;
+    height: 40px;
+    cursor: pointer;
+    color: white;
+    background-color: #e38d83;
+    margin: 15px;
+  }
+  
+  
+  .navigation-buttons button {
+    background-color: white;
+    color: #e38d83;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .navigation-buttons button.active {
+    background-color: #e38d83;
+  }
+  
+  .swipeContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 3%;
+  }
+  
+  .img {
+    display: flex;
+    align-items: center;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    justify-content: space-evenly;
+    object-fit: cover;
+  }
+  
+  .iconContainer {
+    margin-top: 20px;
+    justify-content: space-evenly;
+  }
+  
+  .imgContainer {
+    justify-content: space-evenly;
+    display: flex;
+  }
+  
+  .topContainer {
+    margin-left: 100px;
+    margin-top: 5px;
+  }
+  
+  .link {
+    display: flex;
+  }
+  
+  /* .popUp {
+        display: flex;
+        width: 20px;
+        height: 10px;
+       } */
+  
+  /* .popUpImg {
+        display: flex;
+        align-items: center;
+        object-fit: cover
+       } */

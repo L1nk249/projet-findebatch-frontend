@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import styles from '../styles/Results.module.css';
+import styles from '../styles/ResultsView.module.css';
 import { useState, useEffect } from 'react';
 
 function View() {
