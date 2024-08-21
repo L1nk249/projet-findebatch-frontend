@@ -13,7 +13,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
-$;
 import apiUrl from "../config";
 
 function Calendrier() {
