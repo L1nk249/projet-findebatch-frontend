@@ -14,7 +14,7 @@ import apiUrl from "../config";
 
 function Header() {
   const event = useSelector((state) => state.event.value);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch();//
 
   const router = useRouter(); // pour pouvoir utiliser le hook Router( navigation entre les pages)
   const token = useSelector((state) => state.user.value.token); // le reducer va chercher la valeur du token pour dire si user connected ou non
