@@ -91,6 +91,7 @@ function Inscription() {
     }
     // si les conditions sont remplies--> fetch vers signup pour inscrire l'utilisateur
     fetch(`${apiUrl}/users/signup`, {
+        mode: 'no-cors',
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
