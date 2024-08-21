@@ -13,6 +13,7 @@ import {
   WhatsappIcon,
 } from 'react-share';
 import styles from '../styles/ShareButton.module.css';
+import apiUrl from "../config";
 
 const ShareButton = ({ url, title }) => {
   const [isOpen, setIsOpen] = useState(false);

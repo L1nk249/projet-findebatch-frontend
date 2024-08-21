@@ -5,6 +5,7 @@ import "boxicons/css/boxicons.min.css";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import ShareButton from "./ShareButton";
+import apiUrl from "../config";
 
 // Importation des composants Leaflet
 const MapContainer = dynamic(
@@ -46,14 +47,14 @@ function EventDetails() {
     const url = new URL(window.location.href);
     const eventId = url.searchParams.get("hash");
 
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/events/${eventId}`)
+    fetch(`${apiUrl}/events/${eventId}`)
       .then((response) => response.json())
       .then((data) => {
         setEventData(data.events);
         console.log("data.events :  ", data.events);
 
         // Je récupère aussi les infos du lieu de l'event
-        fetch(`${process.env.REACT_APP_BACKEND_URL}/places/${data.events.place}`)
+        fetch(`${apiUrl}/places/${data.events.place}`)
           .then((response) => response.json())
           .then((place) => {
             console.log("place.place", place.place[0].address);
@@ -68,7 +69,7 @@ function EventDetails() {
             setPlaceLongitude(place.place[0].longitude);
             // je vais récupérer l'id du user, si cet id est compris dans le NbLike de cet event
             // alors isLiked est true
-            fetch(`${process.env.REACT_APP_BACKEND_URL}/users/infos/${token}`)
+            fetch(`${apiUrl}/users/infos/${token}`)
               .then((response) => response.json())
               .then((dataUser) => {
                 console.log("data info : ", dataUser.user[0]._id);
@@ -158,7 +159,7 @@ function EventDetails() {
   // Ajoute un like si l'utilisateur clique sur le coeur, le retire si l'user avait déjà liké
   const addNewLike = () => {
     setIsLiked(!isliked);
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/events/like/${token}/${hash}`, {
+    fetch(`${apiUrl}/events/like/${token}/${hash}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
     })
@@ -173,7 +174,7 @@ function EventDetails() {
   // alors isLiked est true
   const addAgenda = () => {
     setIsBooked(!isBooked);
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/events/like/${token}/${hash}`, {
+    fetch(`${apiUrl}/events/like/${token}/${hash}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
     })
@@ -237,7 +238,7 @@ function EventDetails() {
             <h2>Infos pratiques</h2>
             <div className={styles.iconsContainer}>
               <button
-              name='icone pour copier le lien de la page'
+                name="icone pour copier le lien de la page"
                 className={styles.iconButton}
                 onClick={() => {
                   const pageUrl = window.location.href; // Récupère l'URL actuelle de la page
@@ -252,14 +253,17 @@ function EventDetails() {
               </button>
               <ShareButton url={url} title={title} />
               <button
-              name='liker ou déliker l evenement'
+                name="liker ou déliker l evenement"
                 className={styles.iconButton}
                 onClick={() => addNewLike()}
               >
                 <i className="bx bx-heart" style={heartStyle}></i>
               </button>
-              <button name='ajouter cet évènement à mon agenda'
-              className={styles.iconButton} onClick={() => addAgenda()}>
+              <button
+                name="ajouter cet évènement à mon agenda"
+                className={styles.iconButton}
+                onClick={() => addAgenda()}
+              >
                 <i className="bx bx-calendar-plus" style={bookingStyle}></i>
               </button>
             </div>
@@ -283,7 +287,10 @@ function EventDetails() {
             <div className={styles.longInfoButton}>
               <i class="bx bx-map"></i> {adresse}
             </div>
-            <button name='Accéder à la page de létablissement' className={styles.placeButton}>
+            <button
+              name="Accéder à la page de létablissement"
+              className={styles.placeButton}
+            >
               <i class="bx bx-building-house"></i> Page de l'établissement
             </button>
           </div>

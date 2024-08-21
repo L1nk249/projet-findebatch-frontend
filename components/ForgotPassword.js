@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from "react";
+import { Modal, Button } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../styles/ForgotPassword.module.css";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
+import apiUrl from "../config";
 
 function ForgotPassword({ showModal, handleClose }) {
   const [signInMail, setSignInMail] = useState("");
@@ -10,39 +11,39 @@ function ForgotPassword({ showModal, handleClose }) {
   const handleSubmit = (e) => {
     e.preventDefault(); // Éviter le comportement par défaut du formulaire.
 
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/users/forgot-password`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    fetch(`${apiUrl}/users/forgot-password`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: signInMail }), // Envoyer l'email pour réinitialiser le mot de passe.
     })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data)
-      if (data.result) {
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.result) {
+          Swal.fire({
+            title: "Succès!",
+            text: "Un email a été envoyé pour réinitialiser votre mot de passe.",
+            icon: "success",
+            confirmButtonText: "OK",
+          });
+          handleClose(); // Fermer la modal après l'envoi de l'email.
+        } else {
+          Swal.fire({
+            title: "Erreur!",
+            text: "Erreur: " + data.error,
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        }
+      })
+      .catch((error) => {
         Swal.fire({
-          title: 'Succès!',
-          text: 'Un email a été envoyé pour réinitialiser votre mot de passe.',
-          icon: 'success',
-          confirmButtonText: 'OK'
+          title: "Erreur!",
+          text: "Erreur lors de l'envoi de la demande.",
+          icon: "error",
+          confirmButtonText: "OK",
         });
-        handleClose(); // Fermer la modal après l'envoi de l'email.
-      } else {
-        Swal.fire({
-          title: 'Erreur!',
-          text: 'Erreur: ' + data.error,
-          icon: 'error',
-          confirmButtonText: 'OK'
-        });
-      }
-    })
-    .catch(error => {
-      Swal.fire({
-        title: 'Erreur!',
-        text: 'Erreur lors de l\'envoi de la demande.',
-        icon: 'error',
-        confirmButtonText: 'OK'
       });
-    });
   };
 
   return (

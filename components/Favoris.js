@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import EventCard from "../components/EventCard";
 import styles from "../styles/Favoris.module.css";
+import apiUrl from "../config";
 
 function Favoris() {
   const token = useSelector((state) => state.user.value.token);
@@ -11,7 +12,7 @@ function Favoris() {
 
   useEffect(() => {
     // Je commence par récupérer les évènements likés
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/events/likelist/like/user/${token}`)
+    fetch(`${apiUrl}/events/likelist/like/user/${token}`)
       .then((response) => response.json())
       .then((data) => {
         console.log("data.eventsLiked", data.eventsLiked);
@@ -31,15 +32,13 @@ function Favoris() {
 
   return (
     <div className={styles.favoritesPageContainer}>
-        <div>
-          <h1>
-            Mes sorties sauvegardées{" "}
-            <FontAwesomeIcon icon={faHeart} style={heartStyle} />{" "}
-          </h1>{" "}
-          <div className={styles.eventsLikedContainer}>
-            {favoriteEvents}
-            </div>
-        </div>
+      <div>
+        <h1>
+          Mes sorties sauvegardées{" "}
+          <FontAwesomeIcon icon={faHeart} style={heartStyle} />{" "}
+        </h1>{" "}
+        <div className={styles.eventsLikedContainer}>{favoriteEvents}</div>
+      </div>
     </div>
   );
 }

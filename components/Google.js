@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from "react";
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
@@ -8,10 +6,9 @@ import styles from "../styles/Home.module.css";
 import { useDispatch } from "react-redux";
 import { signIn } from "../reducers/user";
 import { useRouter } from "next/router";
-
+import apiUrl from "../config";
 
 function Google(props) {
-  
   const [user, setUser] = useState([]);
   const [profile, setProfile] = useState([]);
   const dispatch = useDispatch();
@@ -41,12 +38,12 @@ function Google(props) {
   useEffect(() => {
     if (user) {
       user == [] ? console.log(user) : console.log("Empty user");
-      axios  // = fetch    Axios will automatically transforms the server's response data, while with Fetch, you need to call the response. json method to parse the data into a JavaScript object.
+      axios // = fetch    Axios will automatically transforms the server's response data, while with Fetch, you need to call the response. json method to parse the data into a JavaScript object.
         .get(
           `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
           {
             headers: {
-              Authorization: `Bearer ${user.access_token}`,// bearer authentification spécifique pour les token
+              Authorization: `Bearer ${user.access_token}`, // bearer authentification spécifique pour les token
               Accept: "application/json",
             },
           }
@@ -60,7 +57,7 @@ function Google(props) {
             return;
           }
 
-          fetch(`${process.env.REACT_APP_BACKEND_URL}/users/google-auth`, {
+          fetch(`${apiUrl}/users/google-auth`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -73,20 +70,19 @@ function Google(props) {
           })
             .then((response) => response.json())
             .then((data) => {
-             // console.log("dataaa googlllle : ", data);
+              // console.log("dataaa googlllle : ", data);
               if (data.result) {
-             //   console.log("Connexion réussie:", data);
+                //   console.log("Connexion réussie:", data);
                 dispatch(
-                  signIn({   // on rajoute l'utilisatur dans la base de données si pas déja existant 
+                  signIn({
+                    // on rajoute l'utilisatur dans la base de données si pas déja existant
                     username: res.data.name,
                     email: res.data.email,
                     token: data.token,
                   })
                 );
-              props.handleClose() // on passe une props handleclose pour pouvoir l'intégrer au composant Google dans connexion
+                props.handleClose(); // on passe une props handleclose pour pouvoir l'intégrer au composant Google dans connexion
                 router.push("/Home");
-                
-               
               } else {
                 console.log("Échec de la connexion:", data);
                 // Traiter l'échec de la connexion

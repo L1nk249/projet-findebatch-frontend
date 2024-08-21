@@ -8,6 +8,7 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { useSelector } from "react-redux";
 import uniqid from "uniqid";
 import Image from "next/image";
+import apiUrl from "../config";
 
 function CreateEvent() {
   const token = useSelector((state) => state.user.value.token);
@@ -32,7 +33,6 @@ function CreateEvent() {
   const [imageUrls, setImageUrls] = useState([]);
   const [previewUrl, setPreviewUrl] = useState("/Image-par-defaut.png"); // état pour afficher l'image dans l'eventCard
   const [categoriesList, setCategoriesList] = useState([]);
-
 
   // PARAMETRAGE DU MODULE MATERIAL-UI
   // 1- J'utilise les icones de ce module (les cases à cocher vides et pleines)
@@ -72,21 +72,20 @@ function CreateEvent() {
 
   useEffect(() => {
     // 1- je fetch pour récupérer les données de la BDD places
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/places/`)
+    fetch(`${apiUrl}/places/`)
       .then((response) => response.json())
       .then((data) => {
         //console.log('data' ,data)
         setPlaceDataBase(data.places);
       });
 
-      // 2- je fetch pour récupérer la liste des categories
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/categories/`)
+    // 2- je fetch pour récupérer la liste des categories
+    fetch(`${apiUrl}/categories/`)
       .then((response) => response.json())
       .then((datacateg) => {
         //console.log('data' ,data)
         setCategoriesList(datacateg.categories);
       });
-
   }, [idPlace]);
   //au démarrage du composant, je charge toutes les données présentent dans la BDD "places" et je les stocke dans un état
   // cette liste se mettra à jour à chaque fois que "idPlace" changera
@@ -149,7 +148,7 @@ function CreateEvent() {
     }
 
     // Envoie les fichiers au backend
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/upload`, {
+    const response = await fetch(`${apiUrl}/upload`, {
       method: "POST",
       body: formData,
     });
@@ -274,7 +273,7 @@ function CreateEvent() {
         setLongitude(dataAPI.features[0].geometry.coordinates[0]);
 
         // une fois que j'ai récupéré longitude et latitude, je rentre la place dans ma BDD
-        const responseAddPlace = await fetch(`${process.env.REACT_APP_BACKEND_URL}/places`, {
+        const responseAddPlace = await fetch(`${apiUrl}/places`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -313,7 +312,7 @@ function CreateEvent() {
       token &&
       placeId
     ) {
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/events/${token}`, {
+      fetch(`${apiUrl}/events/${token}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -335,7 +334,7 @@ function CreateEvent() {
         .then((data) => {
           console.log("data", data);
           // lancer la route pu de places pour MAJ le tableau "event" dans la coll "places"
-          fetch(`${process.env.REACT_APP_BACKEND_URL}/places/newevent`, {
+          fetch(`${apiUrl}/places/newevent`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

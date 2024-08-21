@@ -7,8 +7,10 @@ import "boxicons/css/boxicons.min.css";
 import { useRouter } from "next/router";
 import Connexion from "./Connexion";
 import Google from "./Google.js";
+import apiUrl from "../config";
 
 function Inscription() {
+  console.log("API URL in Inscription:", apiUrl);
   const Swal = require("sweetalert2"); //pour donner du style aux messages d'Alert
   const router = useRouter(); // pour pouvoir utiliser le hook Router( navigation entre les pages)
   const dispatch = useDispatch();
@@ -87,8 +89,8 @@ function Inscription() {
       });
       return;
     }
-// si les conditions sont remplies--> fetch vers signup pour inscrire l'utilisateur 
-fetch(`${process.env.REACT_APP_BACKEND_URL}/users/signup`, {
+    // si les conditions sont remplies--> fetch vers signup pour inscrire l'utilisateur
+    fetch(`${apiUrl}/users/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -194,7 +196,6 @@ fetch(`${process.env.REACT_APP_BACKEND_URL}/users/signup`, {
           <div className={styles.Google}>
             <Google handleClose={handleClose} />
           </div>
-       
           <span className={styles.sentence} onClick={handleShow}>
             J’ai déjà un compte. Me connecter izi.
           </span>

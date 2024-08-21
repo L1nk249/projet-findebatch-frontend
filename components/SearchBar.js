@@ -11,6 +11,7 @@ import { useRouter } from "next/router"; // import de useRouter pour afficher un
 import fetch from "node-fetch";
 import dayjs from "dayjs";
 import { addGeoloc } from "../reducers/search";
+import apiUrl from "../config";
 
 function searchBar() {
   const [startDate, setStartDate] = useState(null);
@@ -30,7 +31,7 @@ function searchBar() {
   // à l'affichage du composant, je récupère les catégories dans la bdd
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/places`)
+    fetch(`${apiUrl}/places`)
       .then((response) => response.json())
       .then((data) => {
         const array = [];
@@ -43,7 +44,7 @@ function searchBar() {
         setEventCity(array);
       });
 
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`)
+    fetch(`${apiUrl}/categories`)
       .then((response) => response.json())
       .then((data) => {
         const array = [];
@@ -131,7 +132,7 @@ function searchBar() {
   // fonction pour chercher les évènements correspondant aux filtres sélectionnés par le user
   // le résultat est envoyé dans le reducer events pour les récupérer sur les pages de résultats
   const findResults = (query) => {
-    const url = `${process.env.REACT_APP_BACKEND_URL}/events/${startDate}/${endDate}/${city}${
+    const url = `${apiUrl}/events/${startDate}/${endDate}/${city}${
       query ? `?query=${encodeURIComponent(query)}` : ""
     }`;
     fetch(url)

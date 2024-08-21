@@ -13,6 +13,7 @@ import Connexion from "./Connexion";
 import { useSelector } from "react-redux";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
+import apiUrl from "../config";
 
 function Home() {
   const [geoError, setGeoError] = useState(null);
@@ -34,7 +35,7 @@ function Home() {
 
   useEffect(() => {
     // CHARGEMENT DES EVENTS LES + LIKES
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/events/top/liked`)
+    fetch(`${apiUrl}/events/top/liked`)
       .then((response) => response.json())
       .then((data) => {
         setTopEvent(data.events);
@@ -42,7 +43,7 @@ function Home() {
 
     // CHARGEMENT DES EVENTS BOOKES
     if (token) {
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/events/bookinglist/booking/user/${token}`)
+      fetch(`${apiUrl}/events/bookinglist/booking/user/${token}`)
         .then((response) => response.json())
         .then((data) => {
           console.log("data.eventsBooked", data.eventsBooked);
@@ -67,7 +68,9 @@ function Home() {
           const startDate = today.toISOString().split("T")[0];
           const endDate = nextSunday.toISOString().split("T")[0];
           // 3- je lance ma route
-          fetch(`${process.env.REACT_APP_BACKEND_URL}/events/${startDate}/${endDate}/${longitude}/${latitude}`)
+          fetch(
+            `${apiUrl}/events/${startDate}/${endDate}/${longitude}/${latitude}`
+          )
             .then((response) => response.json())
             .then((data) => {
               setEventThisWeek(data.events);
@@ -134,7 +137,7 @@ function Home() {
   // AFFICHAGE DES EVENTS LES + LIKES
   const handleClose = () => setModalVisible(false);
   const handleShow = () => {
-    token ? setModalVisible(false) : setModalVisible(true);// affiche la modal si token is true ou false
+    token ? setModalVisible(false) : setModalVisible(true); // affiche la modal si token is true ou false
   };
 
   let topEventCards = " ";
@@ -177,145 +180,143 @@ function Home() {
   );
 
   return (
-<div>
+    <div>
+      <SearchBar />
+      <div className={styles.netflixContainer}>
+        <h2>Evènements les plus consultés en France:</h2>
+        <div className={styles.mostConsultedContainer}>
+          <Swiper
+            style={{
+              paddingBottom: "30px",
+              "--swiper-pagination-color": "#2F4858",
+            }}
+            pagination={{ clickable: true }}
+            modules={[Navigation, Pagination]}
+            spaceBetween={1}
+            slidesPerView={5}
+            navigation={{
+              nextEl: ".customnext",
+              prevEl: ".customprev",
+            }}
+          >
+            {topEventCards}
+          </Swiper>
 
-  < SearchBar />
-    <div className={styles.netflixContainer}>
-     
-      <h2>Evènements les plus consultés en France:</h2>
-      <div className={styles.mostConsultedContainer}>
-        <Swiper
-          style={{
-            paddingBottom: "30px",
-            "--swiper-pagination-color": "#2F4858",
-          }}
-          pagination={{ clickable: true }}
-          modules={[Navigation, Pagination]}
-          spaceBetween={1}
-          slidesPerView={5}
-          navigation={{
-            nextEl: ".customnext",
-            prevEl: ".customprev",
-          }}
-        >
-          {topEventCards}
-        </Swiper>
-        
-        <div className={`${styles.customnext} customnext`}>
-          <i className="bx bx-right-arrow-alt"></i>
-        </div>
-        <div className={`${styles.customprev} customprev`}>
-          <i className="bx bx-left-arrow-alt"></i>
-        </div>
-        {!token && (
-          <div>
-            <button className={styles.roundButton} onClick={handleShow}>
-              <i className="bx bx-right-arrow-alt"></i>
-            </button>
+          <div className={`${styles.customnext} customnext`}>
+            <i className="bx bx-right-arrow-alt"></i>
           </div>
-        )}
-        <Connexion
-          showModal={modalVisible}
-          handleClose={handleClose}
-          isConnected={token != null}
-        />
-      </div>
-      {/* Au clic sur le bouton fait apparaitre la modal de connection si pas connecte, sinon fait disparaitre le bouton */}
-
-      {/* j'affiche les suggestions des events près de chez moi cette semaine, si j'ai bien récupéré la géoloc
-      et si il y a des events près de chez moi cette semaine */}
-      {geoError || thisWeekEventCards.length == 0 ? (
-        <p>{geoError}</p>
-      ) : (
-        <>
-          <h2>Les sorties de cette semaine, près de chez toi :</h2>
-          <div className={styles.mostConsultedContainer}>
-            {thisWeekEventCards}
+          <div className={`${styles.customprev} customprev`}>
+            <i className="bx bx-left-arrow-alt"></i>
+          </div>
+          {!token && (
             <div>
-              <button
-                name="defilement des évènements vers la droite"
-                className={styles.roundButton}
-              >
+              <button className={styles.roundButton} onClick={handleShow}>
                 <i className="bx bx-right-arrow-alt"></i>
               </button>
             </div>
-          </div>
-        </>
-      )}
+          )}
+          <Connexion
+            showModal={modalVisible}
+            handleClose={handleClose}
+            isConnected={token != null}
+          />
+        </div>
+        {/* Au clic sur le bouton fait apparaitre la modal de connection si pas connecte, sinon fait disparaitre le bouton */}
 
-      {token && eventsBookedList.length > 0 && (
-        <div className={styles.mySoonEventsContainer}>
-          <h2>Mes prochaines sorties</h2>
-          {eventsBookedList.length > 5 ? (
-            <div className={styles.eventsBookedContainer}>
-              <Swiper
-                style={{
-                  paddingBottom: "10px",
-                  "--swiper-pagination-color": "#2F4858",
-                }}
-                spaceBetween={1}
-                slidesPerView={5}
-                navigation={{
-                  nextEl: ".customnextBooked",
-                  prevEl: ".customprevBooked",
-                }}
-                pagination={{ clickable: true }}
-                modules={[Navigation, Pagination]}
-              >
-                {bookedEvents}
-              </Swiper>
-              <div className={`${styles.customnext} customnextBooked`}>
-                <i className="bx bx-right-arrow-alt"></i>
-              </div>
-              <div className={`${styles.customprev} customprevBooked`}>
-                <i className="bx bx-left-arrow-alt"></i>
+        {/* j'affiche les suggestions des events près de chez moi cette semaine, si j'ai bien récupéré la géoloc
+      et si il y a des events près de chez moi cette semaine */}
+        {geoError || thisWeekEventCards.length == 0 ? (
+          <p>{geoError}</p>
+        ) : (
+          <>
+            <h2>Les sorties de cette semaine, près de chez toi :</h2>
+            <div className={styles.mostConsultedContainer}>
+              {thisWeekEventCards}
+              <div>
+                <button
+                  name="defilement des évènements vers la droite"
+                  className={styles.roundButton}
+                >
+                  <i className="bx bx-right-arrow-alt"></i>
+                </button>
               </div>
             </div>
-          ) : (
-            <div className={styles.eventsBookedContainer}>{bookedEvents}</div>
-          )}
-        </div>
-      )}
+          </>
+        )}
 
-      {!token && (
-        <div className={styles.marketingContainer}>
-          <Image
-            src="/IZI_sorties_home.png"
-            alt="Logo"
-            width={600}
-            height={476}
-            className={styles.pic}
-          />
-          <div className={styles.argumentationContainer}>
-            <h2>IZI te facilite la vie !</h2>
-            <p>
-              Votre compagnon idéal pour toutes vos sorties culturelles et de
-              loisirs en France <br></br>
-              Vous êtes à la recherche de nouvelles activités passionnantes et
-              de sorties captivantes ? <br></br>
-              IZI est là pour vous ! <br></br>
-              Notre plateforme centralise les meilleures idées de sorties
-              culturelles et de loisirs, vous offrant des recommandations
-              personnalisées selon vos préférences et votre localisation.{" "}
-              <br></br>
-              Fini les heures passées à chercher quoi faire ce week-end !{" "}
-              <br></br>
-              Avec IZI, trouvez rapidement et simplement des événements qui
-              correspondent à vos envies.
-            </p>
-
-            <button
-              onClick={() => router.push("/Inscription")}
-              className={styles.inscriptionButton}
-              name="inscription"
-            >
-              Je m'inscris !
-            </button>
+        {token && eventsBookedList.length > 0 && (
+          <div className={styles.mySoonEventsContainer}>
+            <h2>Mes prochaines sorties</h2>
+            {eventsBookedList.length > 5 ? (
+              <div className={styles.eventsBookedContainer}>
+                <Swiper
+                  style={{
+                    paddingBottom: "10px",
+                    "--swiper-pagination-color": "#2F4858",
+                  }}
+                  spaceBetween={1}
+                  slidesPerView={5}
+                  navigation={{
+                    nextEl: ".customnextBooked",
+                    prevEl: ".customprevBooked",
+                  }}
+                  pagination={{ clickable: true }}
+                  modules={[Navigation, Pagination]}
+                >
+                  {bookedEvents}
+                </Swiper>
+                <div className={`${styles.customnext} customnextBooked`}>
+                  <i className="bx bx-right-arrow-alt"></i>
+                </div>
+                <div className={`${styles.customprev} customprevBooked`}>
+                  <i className="bx bx-left-arrow-alt"></i>
+                </div>
+              </div>
+            ) : (
+              <div className={styles.eventsBookedContainer}>{bookedEvents}</div>
+            )}
           </div>
-        </div>
-      )}
+        )}
+
+        {!token && (
+          <div className={styles.marketingContainer}>
+            <Image
+              src="/IZI_sorties_home.png"
+              alt="Logo"
+              width={600}
+              height={476}
+              className={styles.pic}
+            />
+            <div className={styles.argumentationContainer}>
+              <h2>IZI te facilite la vie !</h2>
+              <p>
+                Votre compagnon idéal pour toutes vos sorties culturelles et de
+                loisirs en France <br></br>
+                Vous êtes à la recherche de nouvelles activités passionnantes et
+                de sorties captivantes ? <br></br>
+                IZI est là pour vous ! <br></br>
+                Notre plateforme centralise les meilleures idées de sorties
+                culturelles et de loisirs, vous offrant des recommandations
+                personnalisées selon vos préférences et votre localisation.{" "}
+                <br></br>
+                Fini les heures passées à chercher quoi faire ce week-end !{" "}
+                <br></br>
+                Avec IZI, trouvez rapidement et simplement des événements qui
+                correspondent à vos envies.
+              </p>
+
+              <button
+                onClick={() => router.push("/Inscription")}
+                className={styles.inscriptionButton}
+                name="inscription"
+              >
+                Je m'inscris !
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
-  </div>
   );
 }
 

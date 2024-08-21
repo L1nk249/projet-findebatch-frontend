@@ -7,6 +7,7 @@ import ResultView from "./ResultView";
 import { Link } from "react-router-dom";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import apiUrl from "../config";
 
 function Swipe() {
   const token = useSelector((state) => state.user.value.token);
@@ -18,7 +19,7 @@ function Swipe() {
     if (token) {
       // je vais récupérer l'id du user, si cet id est compris dans le NbLike de cet event
       // alors isLiked est true
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/users/infos/${token}`)
+      fetch(`${apiUrl}/users/infos/${token}`)
         .then((response) => response.json())
         .then((data) => {
           setIdUser(data.user[0]._id);
@@ -39,12 +40,10 @@ function Swipe() {
     if (token) {
       // Cette route ajoute un like si le token de l'user n'est pas présent dans le tableau nbLike dans la BDD
       // s'il est présent dans le tableau nbLike dans la BDD cette route ne fait rien
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/events/swipe/droite/droite/${token}/${idevent}`, 
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-        }
-      )
+      fetch(`${apiUrl}/events/swipe/droite/droite/${token}/${idevent}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+      })
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
@@ -56,12 +55,10 @@ function Swipe() {
     if (token) {
       // Cette route ajoute un like si le token de l'user n'est pas présent dans le tableau nbLike dans la BDD
       // s'il est présent dans le tableau nbLike dans la BDD cette route ne fait rien
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/events/swipe/gauche/gauche/${token}/${idevent}`, 
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-        }
-      )
+      fetch(`${apiUrl}/events/swipe/gauche/gauche/${token}/${idevent}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+      })
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
@@ -82,10 +79,10 @@ function Swipe() {
     console.log("no !");
   };
 
-//   let dateDebut = new Date(eventData.startDate);
-//   let dateDebutGoodFormat = dateDebut.toLocaleString().split(" ")[0];
-//   let dateFin = new Date(eventData.endDate);
-//   let dateFinGoodFormat = dateFin.toLocaleString().split(" ")[0];
+  //   let dateDebut = new Date(eventData.startDate);
+  //   let dateDebutGoodFormat = dateDebut.toLocaleString().split(" ")[0];
+  //   let dateFin = new Date(eventData.endDate);
+  //   let dateFinGoodFormat = dateFin.toLocaleString().split(" ")[0];
 
   // Affichage des résultats avec la possibilité de cliquer sur l'image pour voir la page de l'évènement
   // ainsi que navigation sur les différentes views
@@ -94,39 +91,45 @@ function Swipe() {
     .map((data, i) => (
       <div key={i} className={styles.totalContainer}>
         <div className={styles.displayContainer}>
-        <div className={styles.imgContainer}>
-          <Link>
-            <Image
-              src={data.pictures[0]}
-              alt={data.eventName}
-              width={300}
-              height={350}
-              className={styles.img}
-              onClick={() => router.push(`/event/${data._id}`)}
-            />
-          </Link>
-        </div>
-        <div className={styles.contentContainer}>
-        <h2>{data.eventName}</h2>
-          <div className={styles.longInfoButton}>
-              <i className="bx bx-calendar" style={{ marginRight: "10px"}}></i>{" "}
+          <div className={styles.imgContainer}>
+            <Link>
+              <Image
+                src={data.pictures[0]}
+                alt={data.eventName}
+                width={300}
+                height={350}
+                className={styles.img}
+                onClick={() => router.push(`/event/${data._id}`)}
+              />
+            </Link>
+          </div>
+          <div className={styles.contentContainer}>
+            <h2>{data.eventName}</h2>
+            <div className={styles.longInfoButton}>
+              <i className="bx bx-calendar" style={{ marginRight: "10px" }}></i>{" "}
               {data.startDate === data.endDate
-                ? `Le ${new Date(data.startDate).toLocaleString().split(" ")[0]}`
-                : `Du ${new Date(data.startDate).toLocaleString().split(" ")[0]} au ${new Date(data.endDate).toLocaleString().split(" ")[0]}`}
+                ? `Le ${
+                    new Date(data.startDate).toLocaleString().split(" ")[0]
+                  }`
+                : `Du ${
+                    new Date(data.startDate).toLocaleString().split(" ")[0]
+                  } au ${
+                    new Date(data.endDate).toLocaleString().split(" ")[0]
+                  }`}
             </div>
-          <p className={styles.description}>{data.description}</p>
-        </div>
+            <p className={styles.description}>{data.description}</p>
+          </div>
         </div>
         <div className={styles.iconContainer}>
           <i
             onClick={() => handleSayNo(data._id)}
             className="bx bxs-message-square-x custom-icon"
-            style={{ color: "#f24822" , fontSize: "100px", cursor: "pointer"}}
+            style={{ color: "#f24822", fontSize: "100px", cursor: "pointer" }}
           ></i>
           <i
             onClick={() => handleSayYes(data._id)}
             className="bx bxs-message-square-check custom-icon"
-            style={{ color: "#77C461" , fontSize: "100px", cursor: "pointer"}}
+            style={{ color: "#77C461", fontSize: "100px", cursor: "pointer" }}
           ></i>
         </div>
         {data.nbLike.find((ev) => ev == idUser) && (

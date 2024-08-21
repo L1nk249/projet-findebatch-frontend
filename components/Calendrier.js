@@ -13,6 +13,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
+$;
+import apiUrl from "../config";
 
 function Calendrier() {
   const token = useSelector((state) => state.user.value.token);
@@ -22,7 +24,7 @@ function Calendrier() {
 
   useEffect(() => {
     // Je commence par récupérer les évènements bookés
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/events/bookinglist/booking/user/${token}`)
+    fetch(`${apiUrl}/events/bookinglist/booking/user/${token}`)
       .then((response) => response.json())
       .then((data) => {
         console.log("data.eventsBooked", data.eventsBooked);

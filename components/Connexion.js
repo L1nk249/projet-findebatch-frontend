@@ -7,6 +7,7 @@ import { signIn } from "../reducers/user";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import Google from "./Google.js"; // import du composant Google pour l'afficher dans le formulaire connexion
+import apiUrl from "../config";
 
 function Connexion({ isConnected = true, showModal, handleClose }) { 
   // 3 props
@@ -60,7 +61,7 @@ function Connexion({ isConnected = true, showModal, handleClose }) {
       return;
     }
 
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/users/signin`, {
+    fetch(`${apiUrl}/users/signin`, {
       //Fait une requête POST au backend pour vérifier les informations de connexion.
 
       method: "POST",

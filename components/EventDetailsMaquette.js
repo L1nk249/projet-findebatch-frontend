@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import styles from "../styles/EventDetailsMaquette.module.css";
 import "boxicons/css/boxicons.min.css";
+import apiUrl from "../config";
 
 // Importation des composants Leaflet
 const MapContainer = dynamic(

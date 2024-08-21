@@ -6,19 +6,19 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { Router, useRouter } from "next/router";
-
+import apiUrl from "../config";
 
 function EventCard(props) {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.user.value.token);
   let [isliked, setIsLiked] = useState(false);
   const router = useRouter();
- 
+
   useEffect(() => {
-    if (token) { 
+    if (token) {
       // je vais récupérer l'id du user, si cet id est compris dans le NbLike de cet event
       // alors isLiked est true
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/users/infos/${token}`)
+      fetch(`${apiUrl}/users/infos/${token}`)
         .then((response) => response.json())
         .then((data) => {
           console.log(data.user[0]._id);
@@ -30,7 +30,7 @@ function EventCard(props) {
             }
           }
         });
-     }
+    }
   }, [token]);
 
   let heartStyle = { color: "white" };
@@ -44,16 +44,16 @@ function EventCard(props) {
   const addNewLike = () => {
     if (token) {
       setIsLiked(!isliked);
-    // Cette route ajoute un like si le token de l'user n'est pas présent dans le tableau nbLike dans la BDD
-    // s'il est présent dans le tableau nbLike dans la BDD cette route retire 1 like
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/events/like/${token}/${props._id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
+      // Cette route ajoute un like si le token de l'user n'est pas présent dans le tableau nbLike dans la BDD
+      // s'il est présent dans le tableau nbLike dans la BDD cette route retire 1 like
+      fetch(`${apiUrl}/events/like/${token}/${props._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        });
     }
   };
 
@@ -61,7 +61,7 @@ function EventCard(props) {
     // fonction pour activer la modal connexion au clic
     //console.log("CLICK", props.isConnected);
     if (!token) {
-      props.handleShow();// Si pas connecté --> affiche la modal sinon affiche les détails de l'even t
+      props.handleShow(); // Si pas connecté --> affiche la modal sinon affiche les détails de l'even t
     } else {
       router.push(`/event?hash=${props._id}`);
     }
@@ -85,7 +85,7 @@ function EventCard(props) {
           <div></div>
         )}
         {props._id ? (
-          <div className={styles.cardContent}  onClick={() => handleClick()}>
+          <div className={styles.cardContent} onClick={() => handleClick()}>
             <p className={styles.title}>{props.eventName}</p>
             <p className={styles.description}>{props.description}</p>
             <button name="En savoir plus" className={styles.knowMoreButton}>

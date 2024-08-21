@@ -10,6 +10,7 @@ import { Popover, Menu } from "antd";
 import { logout } from "../reducers/user";
 import Swal from "sweetalert2";
 import { displayEvent } from "../reducers/event";
+import apiUrl from "../config";
 
 function Header() {
   const event = useSelector((state) => state.event.value);
@@ -25,7 +26,7 @@ function Header() {
   const [modalVisible, setModalVisible] = useState(false); // import de la modal pour l'utiliser au clic sur le bouton connexion du header
   const handleShow = () => setModalVisible(true);
   const handleClose = () => setModalVisible(false);
-  
+
   const handleChange = (e) => {
     //handleChange envoie une requête au serveur chaque fois que la valeur de la barre de recherche change et met à jour searchResults avec les données retournées.
     // e.target.value= valeur de l'input
@@ -39,14 +40,13 @@ function Header() {
       return;
     }
     setSearchInput(e.target.value);
-
-   
   };
-    //fetch de la route search, utiliser le reducer et displayEvent pour afficher l'EventCard
+  //fetch de la route search, utiliser le reducer et displayEvent pour afficher l'EventCard
 
   const handleKeyDown = (e) => {
-    if(e.key === "Enter"){// le fetch se déclenche lorsqu'on appuye sur la touche enter 
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/events/search/${searchInput}`)
+    if (e.key === "Enter") {
+      // le fetch se déclenche lorsqu'on appuye sur la touche enter
+      fetch(`${apiUrl}/events/search/${searchInput}`)
         .then((response) => response.json())
         .then((data) => {
           if (data.events && data.events.length > 0) {
@@ -69,9 +69,9 @@ function Header() {
 
             setSearchResults([]); // Réinitialiser les résultats si la barre de recherche est vide
           }
-        })
+        });
     }
-  }
+  };
 
   const handleReset = () => {
     // Pour réinitialiser le setter vide = Quand on appuye sur la croix, réinitialise la barre de recherche.
@@ -99,7 +99,7 @@ function Header() {
     if (proceed.isConfirmed) {
       // proceed.isConfirmed car lié à swal.)
       //  on appelle la route delete avec le param token ( pas besoin de req.body on veut tt supprimer)
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/users/delete/${token}`, {
+      fetch(`${apiUrl}/users/delete/${token}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       })
@@ -162,7 +162,7 @@ function Header() {
           type="text"
           placeholder="Rechercher une sortie"
           onChange={handleChange}
-          onKeyDown={handleKeyDown} 
+          onKeyDown={handleKeyDown}
           value={searchInput}
         />
         {!searchInput ? (
