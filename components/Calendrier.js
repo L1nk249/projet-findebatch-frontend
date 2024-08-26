@@ -71,7 +71,7 @@ function Calendrier() {
     }
     return null;
   };
-
+//
   // Au click, je mets à jour la liste des évènements bookedEventsSpecificDate à afficher
   const dateClick = (value) => {
     // au click sur une date, je mets à jour mon état date
