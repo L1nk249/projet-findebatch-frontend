@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
 import styles from '../styles/ResultsView.module.css';
 import { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import "boxicons/css/boxicons.min.css"
 
 function View() {
     const router = useRouter();
@@ -22,7 +24,6 @@ function View() {
         setActiveButton(view.toLowerCase());//toLowerCase() assure que toutes les comparaisons et les mises à jour d'état sont cohérentes, indépendamment des variations de casse dans les URL.
         router.push(`/${view}`, undefined, { shallow: true });//au clic, enclenche le button et déclenche la route associée
         //Le paramètre { shallow: true } permet de changer l'URL sans ajouter une nouvelle entrée dans l'historique du navigateur, ce qui est plus fluide pour les mises à jour d'état en réponse aux changements de chemin.
-
     };
 
     return (
@@ -32,8 +33,11 @@ function View() {
                 <button
                     className={`${styles.button} ${activeButton === 'results' ? styles.active : styles.inactive}`}
                     onClick={() => handleButtonClick('Results')}
+            
                 >
                     Vue Liste
+                    <span className={styles.icon}>
+                    <i class='bx bx-list-ul '></i> </span>
                 </button>
 
                 <button
@@ -41,14 +45,22 @@ function View() {
                     onClick={() => handleButtonClick('Map')}
                 >
                     Vue Carte
+                    <span className={styles.icon}>
+                     <i class='bx bx-map-alt '></i>
+                     </span>
                 </button>
 
                 <button
                     className={`${styles.button} ${activeButton === 'swipe' ? styles.active : styles.inactive}`}
                     onClick={() => handleButtonClick('Swipe')}
                 >
+                    
                     Vue Swipe
+                    <span className={styles.icon}>
+                    <i class='bx bxs-hand-right'></i>
+                 </span>
                 </button>
+            
             </div>
         </div>
     );
