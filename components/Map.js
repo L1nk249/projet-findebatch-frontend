@@ -9,7 +9,6 @@
         import styles from '../styles/Results.module.css';
         import 'leaflet/dist/leaflet.css';
         import "boxicons/css/boxicons.min.css";
-        import apiUrl from '../config';
         
         // Importation des composants Leaflet
         const MapContainer = dynamic(
