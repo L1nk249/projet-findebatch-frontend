@@ -1,4 +1,3 @@
-
 import styles from "../styles/Results.module.css";
 import "boxicons/css/boxicons.min.css";
 import React, { useState } from "react";

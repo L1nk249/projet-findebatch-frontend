@@ -1,3 +1,4 @@
+
 import EventCard from "../components/EventCard";
 import "swiper/css";
 import "swiper/css/navigation";
