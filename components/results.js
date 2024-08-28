@@ -1,3 +1,4 @@
+
 import styles from "../styles/Results.module.css";
 import "boxicons/css/boxicons.min.css";
 import React, { useState } from "react";
@@ -5,7 +6,6 @@ import { useSelector } from "react-redux";
 import EventCard from "./EventCard";
 import SearchBar from "./SearchBar";
 import ResultView from "./ResultView";
-
 
 function Results() {
   const results = useSelector((state) => state.event.value);
