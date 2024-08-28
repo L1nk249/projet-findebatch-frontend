@@ -6,6 +6,7 @@ import EventCard from "./EventCard";
 import SearchBar from "./SearchBar";
 import ResultView from "./ResultView";
 
+
 function Results() {
   const results = useSelector((state) => state.event.value);
 

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import "boxicons/css/boxicons.min.css"
 
+
 function View() {
     const router = useRouter();
     const [activeButton, setActiveButton] = useState('results'); //État pour suivre le bouton actuellement actif. Initialisé à 'Results' pour que le bouton "Vue Liste" soit actif par défaut.
